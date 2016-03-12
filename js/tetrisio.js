@@ -20,7 +20,9 @@
     };
   };
 
-  Grid.prototye = { //grid based on first gris function
+
+
+  Grid.prototype = { //grid based on first gris function
     createCell: function(config){ //function to create cell using config params
       return new Cell(config); //return new cell
     },
@@ -45,7 +47,7 @@
         return;
       }
       var i, j, $row, $cell, cell, cellId = 0; //declare variables for loops
-      for (i = 0, i < this.rowsCount; i += 1){ //loop through the rows
+      for (i = 0; i < this.rowsCount; i += 1){ //loop through the rows
         this.grid[i] = [];
         $row = $('<div class="row"></div>').prependTo(this.$placeholder); //use jquery to add thiese tags before element placeholder
         for (j = 0; j < this.colsCount; j += 1){ //loop through columns for each row
@@ -58,7 +60,7 @@
       //rows
       var self = this;
       this.grid.forEach(function(row){ //for each row add rows
-        self.rows.push(rows); //add rows
+        self.rows.push(row); //add rows
       });
     }
   };
