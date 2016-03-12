@@ -1,4 +1,4 @@
-(function(global, Grid){
+(function(global, Grid, Shape){
   "use strict";
 
   function Tetrisio(options){
@@ -6,6 +6,7 @@
     this.rows = options.rows; //rows assignment
     this.cols = options.cols; //cols assignment
     this.placeholder = options.placeholder; //placeholder assignment
+    this.shapes = [Shape.O];
     this.render(); //render
   }
   Tetrisio.prototype = {
@@ -19,11 +20,44 @@
       });
       return this; //return grid
     },
-    init: function(){
-      //leave this for adding a start button perhaps
+    bind: function() {
+      var self = this;
+      $(document).on('keydown', function( e ) {
+        if (!self.shape) {
+          console.warn("No current shape available");
+          return;
+        }
+        switch (e.keyCode) {
+          case 32: // Space
+            self.shape.moveDown();
+            break;
+          case 37: // Left arrow
+            self.shape.moveLeft();
+            break;
+          case 38: // Up arrow
+            self.shape.rotate();
+            break;
+          case 39: // Right arrow
+            self.shape.moveRight();
+            break;
+          case 40: // Down arrow
+            self.shape.moveDown();
+            break;
+          case 80: // 'P'
+            // pause the game eventually
+            self.pause();
+            break;
+          default:
+          // ..
+        }
+      });
+    },
+    init: function() {
+      this.bind();
+      this.shape = new this.shapes[0](this.grid);
     }
   };
 
   global.Tetrisio = Tetrisio;
 
-}(window, window.Grid));
+}(window, window.Grid, window.Shape));
